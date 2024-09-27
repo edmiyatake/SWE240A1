@@ -44,18 +44,15 @@ class LinkedList:
     # if its odd, return the middle node
     # if its even, return the average of the two nodes and return the first middle node    
     def getMedianID(self):
-        if self.head is None:
-            return
-        if self.size % 2 == 1:
-            left,right = self.head,self.head.next.next
-            while right and right.next:
-                left = left.next
-                right = right.next.next
-            print(left.val)
-            return 0
-        else:
-            return -1 
-            
+        n = self.size
+
+        if n == 0:
+            raise Exception("No Median for empty list")
+        
+        curr = self.head
+        
+
+        
         
     def printList(self):
         curr = self.head
