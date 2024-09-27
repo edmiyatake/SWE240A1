@@ -65,8 +65,29 @@ class LinkedList:
     # if its odd, return the middle node X[(n + 1)/2]
     # if its even, return the average of the two nodes and return the first middle node   (X[n/2] + X[(n/2) + 1]) / 2 and return X[n/2] 
     def getMedianID(self):
-       exit
-        
+        if self.head is None:
+           raise Exception("List is empty!")
+        n = self.size
+
+        if n % 2 == 1:
+           medianIndex = (n + 1) // 2
+           curr, counter = self.head, 1
+           while curr:
+               if counter == medianIndex:
+                   return f"The median of the linked list has the ID: {curr.ID}"
+               counter += 1
+               curr = curr.next
+        else:
+           medianIndex = n // 2
+           curr, counter = self.head, 1
+           while curr:
+               if counter == medianIndex:
+                   solution = (int(curr.ID) + int(curr.next.ID)) / 2
+                   return f"The average ID of the two middle nodes is {solution} and the first middle node is {curr.ID}"
+               counter += 1
+               curr = curr.next
+        return -1
+                  
         
     def printList(self):
         curr = self.head
@@ -81,11 +102,12 @@ list1.addUser("42")
 list1.addUser("32")
 list1.addUser("72")
 list1.addUser("99")
-# list1.deleteUser("42")
-# list1.deleteUser("99")
-list1.payUserToUser("42","32",500) # test case works but to check just put print statements on the deposit 
+list1.deleteUser("42")
+list1.deleteUser("99")
+# list1.payUserToUser("42","32",500) # test case works but to check just put print statements on the deposit 
 # Maybe i want to make error statements for missing entries or maybe if theres not enough in the balance?
-list1.printList()
+# list1.printList()
+print(list1.getMedianID())
 
 
 
