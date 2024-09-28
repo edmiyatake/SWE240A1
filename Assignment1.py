@@ -22,27 +22,28 @@ class LinkedList:
     # Task 2 is a function that appeneds a user to a list and updates size/users
     # opening an acc means that a new user is assigned an ID
     def addUser(self,ID = None, name = None,add = None, ssn = None, deposit = None):
-        # Assuming that input "user" is a string/name of the user being put in
+        # initialize newNode
         newNode = Node(ID,name,add,ssn,deposit)
-        self.size += 1
-
+        # 3 cases that I can see to insert
+        
+        # the linked list is empty and I can just use head to point to newNode
         if self.head is None:
+            newNode.next = self.head
             self.head = newNode
-            return 0
-        # Order matters so we need prev,curr
-        dummy = Node(0)
-        dummy.next = self.head
-        prev,curr = dummy, self.head
-        while curr:
-            if newNode.ID == curr.ID:
-                print("ID IS ALREADY TAKEN PLEASE CHOOSE ANOTHER")
-                break
-            elif newNode.ID > prev.ID and newNode.ID < curr.ID:
-                prev.next = newNode
-                newNode.next = curr
-            prev = prev.next
-            curr = curr.next
-        self.head = dummy.next
+            
+        # the linked list has just head and the newNode value is less than head
+        # basically a swap
+        elif self.head.ID >= newNode.ID:
+            newNode.next = self.head
+            self.head = newNode
+        else:
+            # goal is to find the next largest item after newNode
+            curr = self.head
+            while curr.next and curr.next.ID < newNode.ID:
+                curr = curr.next
+            newNode.next = curr.next
+            curr.next = newNode.next
+        self.size += 1
         
     # If a user closes their account, the unique ID can be re-claimed and re-assigned to future new users. 
     # not quite sure how to implement this one
@@ -129,12 +130,12 @@ class LinkedList:
 # Task 2 test cases
 
 list1 = LinkedList()
-list1.addUser(1,"Facebook","1 Hacker Way, Menlo Park, CA", 409903135, 25623) # checks initial insert
+list1.addUser(5,"Facebook","1 Hacker Way, Menlo Park, CA", 409903135, 25623) # checks initial insert
 list1.addUser(2,"Google","1600 Amphitheatre Parkway, Mountain View, CA", 235524141, 12330) # checks actual insert after first pass
 list1.addUser(3,"Microsoft","1 Microsoft Way, Redmond, WA", 567221425, 46745) # one more random check
 # list1.addUser(32,"Microsoft","1 Microsoft Way, Redmond, WA", 567221425, 46745) # testing the unique id check
 # # this also shouldn't interfere with task 6 because unique id is required so no repeats are allow
-# list1.printList()
+list1.printList()
 
 # Task 3 test cases
 
