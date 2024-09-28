@@ -7,7 +7,7 @@ class Node:
         self.name = name
         self.add = add
         self.ssn = ssn
-        self.deposit = 0
+        self.deposit = deposit
         self.ID = ID # can size and ID be the same thing? -> better is to hold size in linkedlist class and assign into the node
         # can't be the same because they conflict when removing an user
         self.next = None
@@ -21,7 +21,7 @@ class LinkedList:
     
     # Task 2 is a function that appeneds a user to a list and updates size/users
     # opening an acc means that a new user is assigned an ID
-    def addUser(self,ID = 0, name = "",add = "", ssn = 0, deposit = 0):
+    def addUser(self,ID = None, name = None,add = None, ssn = None, deposit = None):
         # Assuming that input "user" is a string/name of the user being put in
         newNode = Node(ID,name,add,ssn,deposit)
         self.size += 1
@@ -68,13 +68,22 @@ class LinkedList:
 
 
     def payUserToUser(self,ID1,ID2,amount):
-        curr = self.head
-        while curr:
-            if curr.ID == ID1:
-                curr.deposit = curr.deposit - amount
-            elif curr.ID == ID2:
-                curr.deposit = curr.deposit + amount
-            curr = curr.next
+        # curr = self.head
+        # while curr:
+        #     if curr.ID == ID1:
+        #         print(f"{curr.ID}'s initial balance is {curr.deposit}")
+        #         curr.deposit = curr.deposit - amount
+        #         print(f"{curr.ID}'s final balance is {curr.deposit}")
+        #     curr = curr.next
+        curr1 = self.head
+        print(curr1.ID)
+        while curr1:
+            if curr1.ID == ID2:
+                print(f"{curr1.ID}'s initial balance is {curr1.deposit}")
+                curr1.deposit = curr1.deposit + amount
+                print(f"{curr1.ID}'s final balance is {curr1.deposit}")
+            curr1 = curr1.next
+
         return 0
 
     # if its odd, return the middle node X[(n + 1)/2]
@@ -119,26 +128,33 @@ class LinkedList:
 
 # Task 2 test cases
 
-# list1 = LinkedList()
-# list1.addUser(42,"Facebook","1 Hacker Way, Menlo Park, CA", 409903135, 25623) # checks initial insert
-# list1.addUser(12,"Google","1600 Amphitheatre Parkway, Mountain View, CA", 235524141, 12330) # checks actual insert after first pass
-# list1.addUser(32,"Microsoft","1 Microsoft Way, Redmond, WA", 567221425, 46745) # one more random check
+list1 = LinkedList()
+list1.addUser(1,"Facebook","1 Hacker Way, Menlo Park, CA", 409903135, 25623) # checks initial insert
+list1.addUser(2,"Google","1600 Amphitheatre Parkway, Mountain View, CA", 235524141, 12330) # checks actual insert after first pass
+list1.addUser(3,"Microsoft","1 Microsoft Way, Redmond, WA", 567221425, 46745) # one more random check
 # list1.addUser(32,"Microsoft","1 Microsoft Way, Redmond, WA", 567221425, 46745) # testing the unique id check
 # # this also shouldn't interfere with task 6 because unique id is required so no repeats are allow
 # list1.printList()
 
 # Task 3 test cases
 
-list2 = LinkedList()
-list2.addUser(201,"Facebook","1 Hacker Way, Menlo Park, CA", 409903135, 25623) 
-list2.addUser(432,"Google","1600 Amphitheatre Parkway, Mountain View, CA", 235524141, 12330) 
-list2.addUser(6233,"Microsoft","1 Microsoft Way, Redmond, WA", 567221425, 46745) 
-list2.deleteUser(201)
+# list2 = LinkedList()
+# list2.addUser(201,"Facebook","1 Hacker Way, Menlo Park, CA", 409903135, 25623) 
+# list2.addUser(432,"Google","1600 Amphitheatre Parkway, Mountain View, CA", 235524141, 12330) 
+# list2.addUser(6233,"Microsoft","1 Microsoft Way, Redmond, WA", 567221425, 46745) 
+# list2.deleteUser(201)
 # list2.printList()
 
-
-
 # Task 4 test cases
+
+# list3 = LinkedList()
+# list3.addUser(201,"Facebook","1 Hacker Way, Menlo Park, CA", 409903135, 25623) 
+# list3.addUser(432,"Google","1600 Amphitheatre Parkway, Mountain View, CA", 235524141, 12330) 
+# list3.addUser(6233,"Microsoft","1 Microsoft Way, Redmond, WA", 567221425, 46745) 
+# list3.printList()
+# list3.payUserToUser(201,432,1000)
+
+
 
 # Task 5 test cases
 
