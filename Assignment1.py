@@ -21,24 +21,39 @@ class LinkedList:
     
     # Task 2 is a function that appeneds a user to a list and updates size/users
     # opening an acc means that a new user is assigned an ID
-    def addUser(self, user):
+    def addUser(self,ID = 0, name = "",add = "", ssn = 0, deposit = 0):
         # Assuming that input "user" is a string/name of the user being put in
-        newNode = Node(user)
+        newNode = Node(ID,name,add,ssn,deposit)
         self.size += 1
-        self.ID += 1 # can increment by whatever to make the ID 
-        newNode.next = None
+
         if self.head is None:
             self.head = newNode
-        if self.tail is None:
-            self.tail = newNode
-        else:
-            self.tail.next = newNode
-            self.tail = newNode
+            return 0
+        # Order matters so we need prev,curr
+        dummy = Node(0)
+        dummy.next = self.head
+        prev,curr = dummy, self.head
+        while curr:
+            if newNode.ID == curr.ID:
+                print("ID IS ALREADY TAKEN PLEASE CHOOSE ANOTHER")
+                break
+            elif newNode.ID > prev.ID and newNode.ID < curr.ID:
+                prev.next = newNode
+                newNode.next = curr
+            prev = prev.next
+            curr = curr.next
+        self.head = dummy.next
+        
     # If a user closes their account, the unique ID can be re-claimed and re-assigned to future new users. 
     # not quite sure how to implement this one
 
     def deleteUser(self,ID):
-    # function won't make it to very end of the linked list 
+    # function won't make it to very end of the linked list SOLVED
+    # first node gets deleted then head must be changed
+        if self.head is None:
+            print("LIST IS EMPTY!")
+        if self.head.ID == ID:
+            print("this part is working")
         dummy = Node(0)
         dummy.next = self.head
         prev, curr = dummy, self.head
@@ -91,23 +106,46 @@ class LinkedList:
         
     def printList(self):
         curr = self.head
-        #print(self.size)
+        if self.head is None:
+            raise Exception("LIST IS EMPTY")
+        
         while curr:
             print(curr.ID)
             curr = curr.next
         
-
-list1 = LinkedList()
-list1.addUser("42")
-list1.addUser("32")
-list1.addUser("72")
-list1.addUser("99")
-list1.deleteUser("42")
-list1.deleteUser("99")
 # list1.payUserToUser("42","32",500) # test case works but to check just put print statements on the deposit 
 # Maybe i want to make error statements for missing entries or maybe if theres not enough in the balance?
 # list1.printList()
-print(list1.getMedianID())
+
+# Task 2 test cases
+
+# list1 = LinkedList()
+# list1.addUser(42,"Facebook","1 Hacker Way, Menlo Park, CA", 409903135, 25623) # checks initial insert
+# list1.addUser(12,"Google","1600 Amphitheatre Parkway, Mountain View, CA", 235524141, 12330) # checks actual insert after first pass
+# list1.addUser(32,"Microsoft","1 Microsoft Way, Redmond, WA", 567221425, 46745) # one more random check
+# list1.addUser(32,"Microsoft","1 Microsoft Way, Redmond, WA", 567221425, 46745) # testing the unique id check
+# # this also shouldn't interfere with task 6 because unique id is required so no repeats are allow
+# list1.printList()
+
+# Task 3 test cases
+
+list2 = LinkedList()
+list2.addUser(201,"Facebook","1 Hacker Way, Menlo Park, CA", 409903135, 25623) 
+list2.addUser(432,"Google","1600 Amphitheatre Parkway, Mountain View, CA", 235524141, 12330) 
+list2.addUser(6233,"Microsoft","1 Microsoft Way, Redmond, WA", 567221425, 46745) 
+list2.deleteUser(201)
+# list2.printList()
+
+
+
+# Task 4 test cases
+
+# Task 5 test cases
+
+# Task 6 test cases
+
+# Task 7 test cases
+
 
 
 
