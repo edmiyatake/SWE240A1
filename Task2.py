@@ -6,9 +6,16 @@ class Node:
 class LinkedList:
     def __init__(self):
         self.head = None
+        self.ID = [1]
 
-    def push(self,val):
-        newNode = Node(val)
+    def uniqueID(self):
+        counter = 1
+        while counter in self.ID:
+            counter += 1
+        return counter
+
+    def push(self):
+        newNode = Node()
         if self.head == None:
             self.head = newNode
             return 
@@ -31,9 +38,7 @@ class LinkedList:
             curr = curr.next
     
 list1 = LinkedList()
-list1.push(5)
-list1.push(10)
-list1.push(2)
+print(list1.uniqueID())
 list1.printList()
 
 
