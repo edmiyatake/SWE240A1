@@ -8,28 +8,21 @@ class LinkedList:
         self.head = None
         self.ID = [1]
 
-    def uniqueID(self):
-        counter = 1
-        while counter in self.ID:
-            counter += 1
-        return counter
-
-    def push(self):
-        newNode = Node()
-        if self.head == None:
+    def assignedUniqueID(self):
+            counter = 1
+            while counter in self.ID:
+                counter += 1
+            self.ID.append(counter)
+            return counter
+    
+    def addUser(self):
+        val = self.assignedUniqueID()
+        newNode = Node(val)
+        # after this just add to tail
+        if self.head is None:
             self.head = newNode
-            return 
-        elif self.head.next is None and newNode.val < self.head.val:
-            newNode.next = self.head
-            self.head = newNode
-            return
-        else:
-            curr = self.head
-            while curr:
-                if newNode.val > curr.val:
-                    break
-                curr = curr.next
-            curr.next = newNode
+        
+        
 
     def printList(self):
         curr = self.head
@@ -38,7 +31,8 @@ class LinkedList:
             curr = curr.next
     
 list1 = LinkedList()
-print(list1.uniqueID())
+list1.addUser()
+list1.addUser()
 list1.printList()
 
 
