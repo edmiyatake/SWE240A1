@@ -17,6 +17,7 @@ class LinkedList:
     
     def addUser(self,val):
         # val = self.assignedUniqueID()
+        # self.ID.append(val) #DONT NEED TO DO THIS ONE BECAUSE ITS IN HELPER FUNCTION
         newNode = Node(val)
         if self.head is None:
             self.head = newNode
@@ -33,13 +34,14 @@ class LinkedList:
             while curr:
                 if newNode.val > prev.val and newNode.val < curr.val:
                     print("Searching for the point")
-                    exit
+                    break
                 prev, curr = curr,curr.next
             # the two ways the code finishes is if it finds a point or it traverses the whole list
             # curr == None means it went through the whole list and we can just place the node at the end
             print(f"Prev is {prev.val}")
             if curr != None:
-                print("Curr is not None")
+                print(f"Curr is {curr.val}")
+                print(f"Prev is {prev.val}")
                 prev.next = newNode
                 newNode.next = curr
             # in the event, we have the point where prev represents the spot where the newNode needs to go
@@ -60,7 +62,6 @@ list1.addUser(3)
 list1.addUser(4)
 list1.addUser(2)
 list1.addUser(0)
-
 
 list1.printList()
 
