@@ -16,37 +16,47 @@ class LinkedList:
     def __init__(self):
         self.head = None
         self.tail = None
-        self.ID = 0
-        self.size = 0
+        self.ID = [0]
+
+    def assignUniqueID(self):
+            counter = 1
+            while counter in self.ID:
+                counter += 1
+            self.ID.append(counter)
+            return counter
     
     # Task 2 is a function that appeneds a user to a list and updates size/users
     # opening an acc means that a new user is assigned an ID
-    def addUser(self,ID = None, name = None,add = None, ssn = None, deposit = None):
+    def addUser(self, name = None,add = None, ssn = None, deposit = None):
         # initialize newNode
+        ID = self.assignUniqueID()
         newNode = Node(ID,name,add,ssn,deposit)
         # 3 cases that I can see to insert
-        
-        # the linked list is empty and I can just use head to point to newNode
         if self.head is None:
-            newNode.next = self.head
             self.head = newNode
-            
-        # the linked list has just head and the newNode value is less than head
-        # basically a swap
-        elif self.head.ID >= newNode.ID:
+        elif ID < self.head.ID:
+            # make a pointer before head
+            dummy = Node(0)
+            dummy.next = self.head
+            # perform the swap
+            dummy.next = newNode
             newNode.next = self.head
             self.head = newNode
         else:
-            # goal is to find the next largest item after newNode
-            curr = self.head
-            while curr.next and curr.next.ID < newNode.ID:
-                curr = curr.next
-            newNode.next = curr.next
-            curr.next = newNode.next
-        self.size += 1
-        
-    # If a user closes their account, the unique ID can be re-claimed and re-assigned to future new users. 
-    # not quite sure how to implement this one
+            prev, curr = self.head, self.head.next
+            while curr:
+                if newNode.ID > prev.ID and newNode.ID < curr.ID:
+                    break
+                prev, curr = curr,curr.next
+            # the two ways the code finishes is if it finds a point or it traverses the whole list
+            # curr == None means it went through the whole list and we can just place the node at the end
+            if curr != None:
+                prev.next = newNode
+                newNode.next = curr
+            # in the event, we have the point where prev represents the spot where the newNode needs to go
+            else:
+                prev.next = newNode
+        return 0
 
     def deleteUser(self,ID):
     # function won't make it to very end of the linked list SOLVED
@@ -65,19 +75,18 @@ class LinkedList:
                 prev = curr
             curr = curr.next
         self.head = dummy.next
-        self.size -= 1
+        self.ID.remove(ID)
 
 
     def payUserToUser(self,ID1,ID2,amount):
-        # curr = self.head
-        # while curr:
-        #     if curr.ID == ID1:
-        #         print(f"{curr.ID}'s initial balance is {curr.deposit}")
-        #         curr.deposit = curr.deposit - amount
-        #         print(f"{curr.ID}'s final balance is {curr.deposit}")
-        #     curr = curr.next
+        curr = self.head
+        while curr:
+            if curr.ID == ID1:
+                print(f"{curr.ID}'s initial balance is {curr.deposit}")
+                curr.deposit = curr.deposit - amount
+                print(f"{curr.ID}'s final balance is {curr.deposit}")
+            curr = curr.next
         curr1 = self.head
-        print(curr1.ID)
         while curr1:
             if curr1.ID == ID2:
                 print(f"{curr1.ID}'s initial balance is {curr1.deposit}")
@@ -92,7 +101,7 @@ class LinkedList:
     def getMedianID(self):
         if self.head is None:
            raise Exception("List is empty!")
-        n = self.size
+        n = len(self.ID) - 1
 
         if n % 2 == 1:
            medianIndex = (n + 1) // 2
@@ -107,11 +116,11 @@ class LinkedList:
            curr, counter = self.head, 1
            while curr:
                if counter == medianIndex:
-                   solution = (int(curr.ID) + int(curr.next.ID)) / 2
+                   solution = (curr.ID + curr.next.ID) / 2
                    return f"The average ID of the two middle nodes is {solution} and the first middle node is {curr.ID}"
                counter += 1
                curr = curr.next
-        return -1
+
                   
         
     def printList(self):
@@ -121,6 +130,9 @@ class LinkedList:
         
         while curr:
             print(curr.ID)
+            print(curr.name)
+            print(curr.deposit)
+
             curr = curr.next
         
 # list1.payUserToUser("42","32",500) # test case works but to check just put print statements on the deposit 
@@ -129,37 +141,49 @@ class LinkedList:
 
 # Task 2 test cases
 
-list1 = LinkedList()
-list1.addUser(5,"Facebook","1 Hacker Way, Menlo Park, CA", 409903135, 25623) # checks initial insert
-list1.addUser(2,"Google","1600 Amphitheatre Parkway, Mountain View, CA", 235524141, 12330) # checks actual insert after first pass
-list1.addUser(3,"Microsoft","1 Microsoft Way, Redmond, WA", 567221425, 46745) # one more random check
-# list1.addUser(32,"Microsoft","1 Microsoft Way, Redmond, WA", 567221425, 46745) # testing the unique id check
-# # this also shouldn't interfere with task 6 because unique id is required so no repeats are allow
-list1.printList()
+# list1 = LinkedList()
+# list1.addUser("Facebook","1 Hacker Way, Menlo Park, CA", 409903135, 25623) # checks initial insert
+# list1.addUser("Google","1600 Amphitheatre Parkway, Mountain View, CA", 235524141, 12330) # checks actual insert after first pass
+# list1.addUser("Microsoft","1 Microsoft Way, Redmond, WA", 567221425, 46745) # one more random check
+# # list1.addUser(32,"Microsoft","1 Microsoft Way, Redmond, WA", 567221425, 46745) # testing the unique id check
+# # # this also shouldn't interfere with task 6 because unique id is required so no repeats are allow
+# list1.printList()
+# TASK 2 DONE
 
 # Task 3 test cases
 
 # list2 = LinkedList()
-# list2.addUser(201,"Facebook","1 Hacker Way, Menlo Park, CA", 409903135, 25623) 
-# list2.addUser(432,"Google","1600 Amphitheatre Parkway, Mountain View, CA", 235524141, 12330) 
-# list2.addUser(6233,"Microsoft","1 Microsoft Way, Redmond, WA", 567221425, 46745) 
-# list2.deleteUser(201)
+# list2.addUser("Facebook","1 Hacker Way, Menlo Park, CA", 409903135, 25623) 
+# list2.addUser("Google","1600 Amphitheatre Parkway, Mountain View, CA", 235524141, 12330) 
+# list2.addUser("Microsoft","1 Microsoft Way, Redmond, WA", 567221425, 46745) 
+# list2.deleteUser(1)
 # list2.printList()
+# TASK 3 DONE
 
 # Task 4 test cases
 
 # list3 = LinkedList()
-# list3.addUser(201,"Facebook","1 Hacker Way, Menlo Park, CA", 409903135, 25623) 
-# list3.addUser(432,"Google","1600 Amphitheatre Parkway, Mountain View, CA", 235524141, 12330) 
-# list3.addUser(6233,"Microsoft","1 Microsoft Way, Redmond, WA", 567221425, 46745) 
-# list3.printList()
-# list3.payUserToUser(201,432,1000)
-
+# list3.addUser("Facebook","1 Hacker Way, Menlo Park, CA", 409903135, 25623) 
+# list3.addUser("Google","1600 Amphitheatre Parkway, Mountain View, CA", 235524141, 12330) 
+# list3.addUser("Microsoft","1 Microsoft Way, Redmond, WA", 567221425, 46745) 
+# list3.payUserToUser(1,3,1000)
+# MORE TEST CASES / ERROR RAISE WHEN BALANCE IN INSUFFICIENT 
+# HOWEVER OTHER THAN THAT THE FUNCTION ITSELF WORKS
 
 
 # Task 5 test cases
 
+# list1 = LinkedList()
+# list1.addUser("Facebook","1 Hacker Way, Menlo Park, CA", 409903135, 25623) 
+# list1.addUser("Google","1600 Amphitheatre Parkway, Mountain View, CA", 235524141, 12330) 
+# list1.addUser("Microsoft","1 Microsoft Way, Redmond, WA", 567221425, 46745) 
+# list1.addUser("Discord","444 De Haro St, Suite 200, San Francisco, CA", 726245763, 46745) 
+# print(list1.getMedianID())
+# TASK 5 DONE
+
 # Task 6 test cases
+
+# USE FIND DUPLICATES IDEA
 
 # Task 7 test cases
 
