@@ -121,10 +121,38 @@ class LinkedList:
                counter += 1
                curr = curr.next
 
+    def mergeAccounts(self,ID1,ID2):
+        sameAcc = False
+        curr1,curr2 = self.head, self.head
+        count1, count2 = 0,0
+        while(curr1):
+            if curr1.ID == ID1:
+                break
+            count1 += 1
+            curr1 = curr1.next
+        while(curr2):
+            if curr2.ID == ID2:
+                break
+            count1 += 1
+            curr2 = curr2.next
+        if curr1.name == curr2.name and curr1.add == curr2.add and curr1.ssn == curr2.ssn:
+            sameAcc = True
+        if sameAcc:
+            # sum the two balances, delete acc with highest ID
+            # if the first ID is larger then the second
+            if curr1.ID > curr2.ID:
+                curr2.deposit += curr1.deposit
+                self.deleteUser(curr1.ID)
+            else:
+                curr1.deposit += curr2.deposit
+                self.deleteUser(curr2.ID)
+        else:
+            return -1
                   
         
     def printList(self):
         curr = self.head
+        print(self.ID)
         if self.head is None:
             raise Exception("LIST IS EMPTY")
         
@@ -183,7 +211,17 @@ class LinkedList:
 
 # Task 6 test cases
 
-# USE FIND DUPLICATES IDEA
+list1 = LinkedList()
+list1.addUser("Facebook","1 Hacker Way, Menlo Park, CA", 409903135, 25623) 
+list1.addUser("Discord","444 De Haro St, Suite 200, San Francisco, CA", 726245763, 46745)
+list1.addUser("Google","1600 Amphitheatre Parkway, Mountain View, CA", 235524141, 12330) 
+list1.addUser("Microsoft","1 Microsoft Way, Redmond, WA", 567221425, 46745) 
+list1.addUser("Discord","444 De Haro St, Suite 200, San Francisco, CA", 726245763, 46745)
+list1.mergeAccounts(1,3)
+list1.mergeAccounts(2,5)
+list1.printList()
+
+#TASK 6 DONE
 
 # Task 7 test cases
 
