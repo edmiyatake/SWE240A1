@@ -148,7 +148,23 @@ class LinkedList:
                 self.deleteUser(curr2.ID)
         else:
             return -1
-                  
+        
+    def mergeBanks(self,list1,list2):
+        head = list1.head
+        curr = head
+        curr2 = list2.head
+        while curr:
+            print(curr.name)
+            print(curr.ID)
+            curr = curr.next     
+        # all i have to do is connect the last node of list1 to first node of list2 and add len(list1) to all IDS in list 2
+        curr = curr2
+        while curr2:
+            curr2.ID = curr2.ID + len(list1.ID) - 1
+            print(curr2.name)
+            print(curr2.ID)
+            curr2 = curr2.next     
+        return 0
         
     def printList(self):
         curr = self.head
@@ -211,20 +227,28 @@ class LinkedList:
 
 # Task 6 test cases
 
-list1 = LinkedList()
-list1.addUser("Facebook","1 Hacker Way, Menlo Park, CA", 409903135, 25623) 
-list1.addUser("Discord","444 De Haro St, Suite 200, San Francisco, CA", 726245763, 46745)
-list1.addUser("Google","1600 Amphitheatre Parkway, Mountain View, CA", 235524141, 12330) 
-list1.addUser("Microsoft","1 Microsoft Way, Redmond, WA", 567221425, 46745) 
-list1.addUser("Discord","444 De Haro St, Suite 200, San Francisco, CA", 726245763, 46745)
-list1.mergeAccounts(1,3)
-list1.mergeAccounts(2,5)
-list1.printList()
+# list1 = LinkedList()
+# list1.addUser("Facebook","1 Hacker Way, Menlo Park, CA", 409903135, 25623) 
+# list1.addUser("Discord","444 De Haro St, Suite 200, San Francisco, CA", 726245763, 46745)
+# list1.addUser("Google","1600 Amphitheatre Parkway, Mountain View, CA", 235524141, 12330) 
+# list1.addUser("Microsoft","1 Microsoft Way, Redmond, WA", 567221425, 46745) 
+# list1.addUser("Discord","444 De Haro St, Suite 200, San Francisco, CA", 726245763, 46745)
+# list1.mergeAccounts(1,3)
+# list1.mergeAccounts(2,5)
+# list1.printList()
 
 #TASK 6 DONE
 
 # Task 7 test cases
 
-
-
+list1 = LinkedList()
+list1.addUser("Facebook","1 Hacker Way, Menlo Park, CA", 409903135, 25623) 
+list1.addUser("Discord","444 De Haro St, Suite 200, San Francisco, CA", 726245763, 46745)
+list1.addUser("Google","1600 Amphitheatre Parkway, Mountain View, CA", 235524141, 12330) 
+list2 = LinkedList()
+list2.addUser("Statefarm", "237 Perimeter Center Pkwy NE Sandy Springs, GA", 522102987, 5234440)
+list2.addUser("Geico", "14111 Danielson St, Poway, CA", 216781234, 1231265)
+list2.addUser("UCI", "401 E. Peltason Drive, Suite 3200, Irvine, CA", 231987654, 213131312)
+list1.mergeBanks(list1,list2)
+list1.printList()
 
