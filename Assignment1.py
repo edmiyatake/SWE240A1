@@ -150,19 +150,11 @@ class LinkedList:
             return -1
         
     def mergeBanks(self,list1,list2):
-        head = list1.head
-        curr = head
         curr2 = list2.head
-        while curr:
-            print(curr.name)
-            print(curr.ID)
-            curr = curr.next     
         # all i have to do is connect the last node of list1 to first node of list2 and add len(list1) to all IDS in list 2
-        curr = curr2
+        # a better way is to just traverse the second list and append it to the first list
         while curr2:
-            curr2.ID = curr2.ID + len(list1.ID) - 1
-            print(curr2.name)
-            print(curr2.ID)
+            list1.addUser(curr2.name, curr2.add, curr2.ssn, curr2.deposit)
             curr2 = curr2.next     
         return 0
         
